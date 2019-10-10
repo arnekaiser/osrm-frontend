@@ -28,7 +28,7 @@ var map = L.map('map', {
   zoomControl: true,
   dragging: true,
   layers: layers,
-  maxZoom: 18
+  maxZoom: 22
 }).setView(mergedOptions.center, mergedOptions.zoom);
 
 // Pass basemap layers
