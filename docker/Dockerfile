@@ -6,6 +6,7 @@ ENV OSRM_CENTER='51.961880,7.659359'
 ENV OSRM_ZOOM='13'
 ENV OSRM_LANGUAGE='en'
 ENV OSRM_LABEL='Car (fastest)'
+ENV OSRM_MAPBOX_TOKEN='pk.eyJ1IjoibXNsZWUiLCJhIjoiclpiTWV5SSJ9.P_h8r37vD8jpIH1A6i1VRg'
 
 # Copy package.json
 RUN mkdir -p /src

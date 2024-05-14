@@ -18,11 +18,11 @@ var mergedOptions = L.extend(leafletOptions.defaultState, parsedOptions);
 var local = localization.get(mergedOptions.language);
 
 // load only after language was chosen
-var itineraryBuilder = require('./itinerary_builder')(mergedOptions.language);
+var ItineraryBuilder = require('./itinerary_builder')(mergedOptions.language);
 
 var mapLayer = leafletOptions.layer;
 var overlay = leafletOptions.overlay;
-var baselayer = ls.get('layer') ? mapLayer[0][ls.get('layer')] : mapLayer[0]['Mapbox Streets'];
+var baselayer = ls.get('layer') ? mapLayer[0][ls.get('layer')] : leafletOptions.defaultState.layer;
 var layers = ls.get('getOverlay') && [baselayer, overlay['Small Components']] || baselayer;
 var map = L.map('map', {
   zoomControl: true,
@@ -92,9 +92,8 @@ function makeIcon(i, n) {
     });
   }
 }
-
 var plan = new ReversablePlan([], {
-  geocoder: Geocoder.nominatim(),
+  geocoder: L.Control.Geocoder.nominatim(),
   routeWhileDragging: true,
   createMarker: function(i, wp, n) {
     var options = {
@@ -129,8 +128,6 @@ var plan = new ReversablePlan([], {
   }
 });
 
-L.extend(L.Routing, itineraryBuilder);
-
 // add marker labels
 var controlOptions = {
   plan: plan,
@@ -147,7 +144,8 @@ var controlOptions = {
   serviceUrl: leafletOptions.services[0].path,
   useZoomParameter: options.lrm.useZoomParameter,
   routeDragInterval: options.lrm.routeDragInterval,
-  collapsible: options.lrm.collapsible
+  collapsible: options.lrm.collapsible,
+  itineraryBuilder: new ItineraryBuilder(),
 };
 var router = (new L.Routing.OSRMv1(controlOptions));
 router._convertRouteOriginal = router._convertRoute;
